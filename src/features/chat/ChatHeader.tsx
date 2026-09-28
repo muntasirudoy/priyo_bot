@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, RotateCcw, Bot } from 'lucide-react';
+import { X, RotateCcw } from 'lucide-react';
 
 interface ChatHeaderProps {
   onClose: () => void;

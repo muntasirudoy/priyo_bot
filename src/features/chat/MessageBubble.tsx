@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChatMessage } from '../../types';
-import { Bot, FileText, User } from 'lucide-react';
+import { Bot, User } from 'lucide-react';
 
 interface MessageBubbleProps {
   message: ChatMessage;

@@ -9,7 +9,6 @@ import {
   AlertTriangle,
   FileText,
   ArrowRight,
-  TrendingUp,
   Clock,
 } from 'lucide-react';
 

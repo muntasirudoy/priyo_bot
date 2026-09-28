@@ -7,7 +7,6 @@ import {
   Settings,
   LogOut,
   ExternalLink,
-  ShieldAlert,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
