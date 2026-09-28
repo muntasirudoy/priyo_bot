@@ -2,8 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-backend-url.com/api/:path*"
-    },
+      "destination": "https://priyo-bot-server.onrender.com"} ,
     {
       "source": "/(.*)",
       "destination": "/index.html"
