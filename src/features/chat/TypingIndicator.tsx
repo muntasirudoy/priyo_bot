@@ -9,9 +9,9 @@ export const TypingIndicator: React.FC = () => {
       </div>
       <div className="px-4 py-3 rounded-2xl rounded-bl-xs bg-white text-slate-500 border border-slate-200/80 shadow-sm">
         <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
-          <span className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
-          <span className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-bounce" />
+          <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
+          <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
+          <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" />
         </div>
       </div>
     </div>
