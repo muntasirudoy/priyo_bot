@@ -3,12 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  html, body, #root { min-height: 100%; }
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     color: #0f172a;
     background-color: #f8fafc;
   }
 }
+
+body:has([data-embed-root]) { background: transparent; overflow: hidden; }
 
 /* Custom sleek scrollbar */
 ::-webkit-scrollbar {

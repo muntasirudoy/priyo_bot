@@ -9,8 +9,8 @@ export interface SendMessageResponse {
 }
 
 export const chatService = {
-  async sendMessage(sessionId: string, message: string): Promise<SendMessageResponse> {
-    const res = await api.post('/chat/message', { sessionId, message });
+  async sendMessage(sessionId: string, message: string, siteId = 'default'): Promise<SendMessageResponse> {
+    const res = await api.post('/chat/message', { sessionId, message, siteId });
     return res.data;
   },
 

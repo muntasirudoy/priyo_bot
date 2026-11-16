@@ -6,6 +6,7 @@ interface ChatHeaderProps {
   onReset: () => void;
   statusText?: string;
   isEscalated?: boolean;
+  title?: string;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
@@ -13,6 +14,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   onReset,
   statusText = 'Priyo AI',
   isEscalated = false,
+  title = 'PriyoShop Customer Support',
 }) => {
   return (
     <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-t-2xl shadow-sm">
@@ -23,7 +25,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border-2 border-red-500 rounded-full" />
         </div>
         <div>
-          <h2 className="text-sm font-semibold leading-tight tracking-wide">PriyoShop Customer Support</h2>
+          <h2 className="text-sm font-semibold leading-tight tracking-wide">{title}</h2>
           <div className="flex items-center gap-1.5 mt-0.5">
             <span
               className={`w-1.5 h-1.5 rounded-full ${

@@ -88,6 +88,7 @@ export const AdminConversationsPage: React.FC = () => {
     const matchesQuery =
       searchQuery.trim() === '' ||
       c.sessionId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (c.siteId || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.lastQuestion.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesQuery;
   });
@@ -162,6 +163,7 @@ export const AdminConversationsPage: React.FC = () => {
                       <span className="font-mono text-xs font-semibold text-slate-800 truncate max-w-[170px]">
                         {conv.sessionId}
                       </span>
+                      {conv.siteId && <span className="text-[10px] text-slate-500">{conv.siteId}</span>}
                       <Badge status={conv.status} />
                     </div>
 
@@ -207,6 +209,7 @@ export const AdminConversationsPage: React.FC = () => {
                       <h2 className="font-mono text-sm font-bold text-slate-900">
                         {conversationDetail.conversation.sessionId}
                       </h2>
+                      {conversationDetail.conversation.siteId && <span className="text-xs text-slate-500">{conversationDetail.conversation.siteId}</span>}
                       <Badge status={conversationDetail.conversation.status} />
                     </div>
                     {/* <p className="text-xs text-slate-400 mt-0.5">

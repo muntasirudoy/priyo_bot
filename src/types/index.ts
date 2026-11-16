@@ -32,6 +32,7 @@ export interface DocumentItem {
 export interface ConversationSummary {
   id: string;
   sessionId: string;
+  siteId?: string;
   status: ConversationStatus;
   createdAt: string;
   updatedAt: string;
@@ -44,6 +45,7 @@ export interface ConversationDetail {
   conversation: {
     id: string;
     sessionId: string;
+    siteId?: string;
     status: ConversationStatus;
     createdAt: string;
     updatedAt: string;

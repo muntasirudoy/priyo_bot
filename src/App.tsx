@@ -11,6 +11,7 @@ import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { AdminConversationsPage } from './pages/AdminConversationsPage';
 import { AdminDocumentsPage } from './pages/AdminDocumentsPage';
 import { AdminSettingsPage } from './pages/AdminSettingsPage';
+import { EmbedPage } from './pages/EmbedPage';
 
 export const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ export const App: React.FC = () => {
         <Routes>
           {/* Customer Facing Website with Floating Chat Widget */}
           <Route path="/" element={<CustomerPage />} />
+          <Route path="/embed" element={<EmbedPage />} />
 
           {/* Admin Login */}
           <Route path="/admin/login" element={<AdminLoginPage />} />

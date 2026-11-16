@@ -7,7 +7,7 @@ const viteEnv = (import.meta as ImportMeta & {
 }).env;
 
 export const api = axios.create({
-  baseURL: viteEnv?.VITE_API_URL ?? '/api',
+  baseURL: new URLSearchParams(window.location.search).get('apiBase') || viteEnv?.VITE_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
