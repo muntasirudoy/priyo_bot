@@ -1,6 +1,8 @@
 export type DocumentStatus = 'UPLOADING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
-export type ConversationStatus = 'ACTIVE' | 'HUMAN_REQUIRED' | 'CLOSED';
-export type MessageRole = 'USER' | 'ASSISTANT' | 'SYSTEM';
+export type ConversationStatus = 'bot' | 'human_requested' | 'agent_active' | 'resolved';
+export type MessageRole = 'USER' | 'ASSISTANT' | 'AGENT' | 'SYSTEM';
+export interface BotSettings { botName: string; tone: 'friendly' | 'professional' | 'casual'; greetingMessage: string; fallbackMessage: string; confidenceThreshold: number }
+export interface KnowledgeGap { id: string; query: string; userEmail: string; conversationId: string; resolved: boolean; createdAt: string }
 
 export interface SourceReference {
   documentId?: string;
@@ -34,6 +36,8 @@ export interface ConversationSummary {
   sessionId: string;
   siteId?: string;
   status: ConversationStatus;
+  userEmail: string;
+  userName?: string;
   createdAt: string;
   updatedAt: string;
   lastQuestion: string;
@@ -47,6 +51,8 @@ export interface ConversationDetail {
     sessionId: string;
     siteId?: string;
     status: ConversationStatus;
+    userEmail: string;
+    userName?: string;
     createdAt: string;
     updatedAt: string;
   };

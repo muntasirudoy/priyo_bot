@@ -23,6 +23,7 @@ export const AdminConversationsPage: React.FC = () => {
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [reply, setReply] = useState('');
 
   const [searchParams] = useSearchParams();
 
@@ -68,6 +69,8 @@ export const AdminConversationsPage: React.FC = () => {
 
     fetchDetail();
   }, [selectedId]);
+  useEffect(() => { if (!selectedId) return; const timer = setInterval(async () => { try { setConversationDetail(await conversationService.getConversation(selectedId)); await fetchConversations(); } catch { /* retry */ } }, 3000); return () => clearInterval(timer); }, [selectedId]);
+  const sendReply = async () => { if (!selectedId || !reply.trim()) return; await conversationService.sendReply(selectedId, reply.trim()); setReply(''); setConversationDetail(await conversationService.getConversation(selectedId)); await fetchConversations(); };
 
   const handleUpdateStatus = async (newStatus: ConversationStatus) => {
     if (!selectedId) return;
@@ -105,7 +108,7 @@ export const AdminConversationsPage: React.FC = () => {
         <div className="flex items-center gap-3">
           {/* Status Filter */}
           <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl text-xs font-medium">
-            {['ALL', 'ACTIVE', 'HUMAN_REQUIRED', 'CLOSED'].map((st) => (
+            {['ALL', 'bot', 'human_requested', 'agent_active', 'resolved'].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
@@ -166,6 +169,7 @@ export const AdminConversationsPage: React.FC = () => {
                       {conv.siteId && <span className="text-[10px] text-slate-500">{conv.siteId}</span>}
                       <Badge status={conv.status} />
                     </div>
+                    <p className="text-xs text-slate-500 truncate">{conv.userEmail}</p>
 
                     <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-2">
                       "{conv.lastQuestion}"
@@ -212,6 +216,7 @@ export const AdminConversationsPage: React.FC = () => {
                       {conversationDetail.conversation.siteId && <span className="text-xs text-slate-500">{conversationDetail.conversation.siteId}</span>}
                       <Badge status={conversationDetail.conversation.status} />
                     </div>
+                    <p className="text-xs text-slate-500">{conversationDetail.conversation.userName} {conversationDetail.conversation.userEmail}</p>
                     {/* <p className="text-xs text-slate-400 mt-0.5">
                       Created on{' '}
                       {new Date(conversationDetail.conversation.createdAt).toLocaleString()}
@@ -221,35 +226,36 @@ export const AdminConversationsPage: React.FC = () => {
 
                 {/* Status action button */}
                 <div className="flex items-center gap-2">
-                  {conversationDetail.conversation.status === 'HUMAN_REQUIRED' && (
+                  {conversationDetail.conversation.status === 'human_requested' && (
                     <Button
                       variant="primary"
                       size="sm"
                       leftIcon={<CheckCircle className="w-3.5 h-3.5" />}
-                      onClick={() => handleUpdateStatus('CLOSED')}
+                      onClick={() => handleUpdateStatus('agent_active')}
                     >
-                      Resolve & Close
+                      Take Over Chat
                     </Button>
                   )}
-                  {conversationDetail.conversation.status === 'ACTIVE' && (
+                  {conversationDetail.conversation.status === 'bot' && (
                     <Button
                       variant="outline"
                       size="sm"
                       leftIcon={<AlertTriangle className="w-3.5 h-3.5 text-amber-500" />}
-                      onClick={() => handleUpdateStatus('HUMAN_REQUIRED')}
+                      onClick={() => handleUpdateStatus('agent_active')}
                     >
-                      Flag for Human
+                      Take Over Chat
                     </Button>
                   )}
-                  {conversationDetail.conversation.status === 'CLOSED' && (
+                  {conversationDetail.conversation.status === 'agent_active' && (
                     <Button
                       variant="secondary"
                       size="sm"
-                      onClick={() => handleUpdateStatus('ACTIVE')}
+                      onClick={() => handleUpdateStatus('bot')}
                     >
-                      Re-open
+                      Return to Bot
                     </Button>
                   )}
+                  {conversationDetail.conversation.status === 'agent_active' && <Button variant="outline" size="sm" onClick={() => handleUpdateStatus('resolved')}>Resolve</Button>}
                 </div>
               </div>
 
@@ -325,6 +331,7 @@ export const AdminConversationsPage: React.FC = () => {
                   );
                 })}
               </div>
+              {conversationDetail.conversation.status === 'agent_active' && <form onSubmit={(e) => { e.preventDefault(); void sendReply(); }} className="flex gap-2 p-4 bg-white border-t border-slate-200"><input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Reply to customer..." className="flex-1 rounded-lg border p-2 text-sm" /><button type="submit" className="rounded-lg bg-red-600 px-4 text-white">Send</button></form>}
             </div>
           )}
         </div>

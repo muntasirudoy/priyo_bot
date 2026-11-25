@@ -18,4 +18,5 @@ export const conversationService = {
   async updateStatus(id: string, status: ConversationStatus): Promise<void> {
     await api.patch(`/conversations/${id}/status`, { status });
   },
+  async sendReply(id: string, message: string): Promise<void> { await api.post(`/conversations/${id}/reply`, { message }); },
 };
