@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { adminService, DashboardData } from '../services/adminService';
-import { documentService } from '../services/documentService';
-import { KnowledgeGap } from '../types';
 import { Badge } from '../components/Badge';
 import {
   MessageSquare,
@@ -17,10 +15,6 @@ import {
 export const AdminDashboardPage: React.FC = () => {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [gaps, setGaps] = useState<KnowledgeGap[]>([]); const [answers, setAnswers] = useState<Record<string, string>>({}); const [gapError, setGapError] = useState('');
-  const loadGaps = () => adminService.getKnowledgeGaps().then(setGaps).catch(() => setGapError('Could not load knowledge gaps.'));
-  useEffect(() => { loadGaps(); }, []);
-  const convert = async (gap: KnowledgeGap) => { const answer = answers[gap.id]?.trim(); if (!answer) return; try { await documentService.addFaq(gap.query, answer); await adminService.resolveKnowledgeGap(gap.id); setAnswers((prev) => ({ ...prev, [gap.id]: '' })); loadGaps(); } catch { setGapError('Could not index this FAQ.'); } };
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -143,7 +137,6 @@ export const AdminDashboardPage: React.FC = () => {
       </div>
 
       {/* Quick Info & Recent Conversations */}
-      <section className="bg-white rounded-2xl border border-slate-200 p-5 space-y-4"><h2 className="font-semibold">Unanswered Questions / Knowledge Gaps</h2>{gapError && <p role="alert" className="text-sm text-red-600">{gapError}</p>}{gaps.length === 0 && <p className="text-sm text-slate-500">No open knowledge gaps.</p>}{gaps.map((gap) => <div key={gap.id} className="border-t pt-4 space-y-2"><p className="text-sm font-medium">{gap.query}</p><p className="text-xs text-slate-500">{gap.userEmail}</p><textarea value={answers[gap.id] || ''} onChange={(e) => setAnswers((prev) => ({ ...prev, [gap.id]: e.target.value }))} placeholder="Write a verified answer" className="w-full rounded-lg border p-2 text-sm" /><button onClick={() => convert(gap)} disabled={!answers[gap.id]?.trim()} className="rounded-lg bg-red-600 px-3 py-2 text-sm text-white disabled:opacity-50">Convert to FAQ</button></div>)}</section>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Conversations Card */}
         <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">

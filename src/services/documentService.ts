@@ -27,5 +27,4 @@ export const documentService = {
   async deleteDocument(id: string): Promise<void> {
     await api.delete(`/documents/${id}`);
   },
-  async addFaq(question: string, answer: string): Promise<void> { await api.post('/documents/faq', { question, answer }); },
 };

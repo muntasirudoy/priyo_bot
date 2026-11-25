@@ -21,8 +21,6 @@ export const AdminDocumentsPage: React.FC = () => {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [deleteModalDoc, setDeleteModalDoc] = useState<DocumentItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [faqQuestion, setFaqQuestion] = useState(''); const [faqAnswer, setFaqAnswer] = useState(''); const [faqSaving, setFaqSaving] = useState(false); const [faqError, setFaqError] = useState('');
-  const addFaq = async (event: React.FormEvent) => { event.preventDefault(); setFaqSaving(true); setFaqError(''); try { await documentService.addFaq(faqQuestion, faqAnswer); setFaqQuestion(''); setFaqAnswer(''); await fetchDocuments(); } catch (err: any) { setFaqError(err.response?.data?.message || 'Could not add FAQ.'); } finally { setFaqSaving(false); } };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -121,7 +119,6 @@ export const AdminDocumentsPage: React.FC = () => {
       </div>
 
       {/* Upload Dropzone Card */}
-      <form onSubmit={addFaq} className="p-6 bg-white border border-slate-200 rounded-2xl space-y-3"><h2 className="font-semibold">Quick Add FAQ (Q&amp;A)</h2><input value={faqQuestion} onChange={(e) => setFaqQuestion(e.target.value)} placeholder="Question" required maxLength={1000} className="w-full rounded-lg border p-3 text-sm" /><textarea value={faqAnswer} onChange={(e) => setFaqAnswer(e.target.value)} placeholder="Answer" required maxLength={5000} className="w-full rounded-lg border p-3 text-sm" /><button disabled={faqSaving} className="rounded-lg bg-red-600 px-4 py-2 text-sm text-white">{faqSaving ? 'Indexing...' : 'Add FAQ'}</button>{faqError && <p role="alert" className="text-sm text-red-600">{faqError}</p>}</form>
       <div className="p-6 bg-white border border-slate-200/90 rounded-2xl shadow-xs">
         <div className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-xl p-8 hover:border-red-500/50 hover:bg-red-50/20 transition-all text-center">
           <div className="w-12 h-12 rounded-2xl bg-red-50 border border-red-200/60 flex items-center justify-center text-red-600 mb-3 shadow-xs">
